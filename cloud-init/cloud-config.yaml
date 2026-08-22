@@ -1,0 +1,36 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+packages:
+  - ca-certificates
+  - curl
+  - fail2ban
+  - git
+  - jq
+  - unattended-upgrades
+
+write_files:
+  - path: /etc/ssh/sshd_config.d/90-hardening.conf
+    permissions: "0644"
+    content: |
+      PasswordAuthentication no
+      PermitRootLogin no
+      KbdInteractiveAuthentication no
+      X11Forwarding no
+  - path: /etc/fail2ban/jail.d/sshd.local
+    permissions: "0644"
+    content: |
+      [sshd]
+      enabled = true
+      maxretry = 5
+      bantime = 1h
+
+runcmd:
+  - [sh, -c, "curl -fsSL https://get.docker.com | sh"]
+  - [usermod, -aG, docker, ubuntu]
+  - [systemctl, enable, --now, docker]
+  - [systemctl, enable, --now, fail2ban]
+  - [systemctl, restart, ssh]
+
+final_message: "oci-free-arm-stack bootstrap completed after $UPTIME seconds"

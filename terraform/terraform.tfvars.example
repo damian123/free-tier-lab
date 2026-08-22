@@ -1,0 +1,12 @@
+region           = "ap-tokyo-1"
+compartment_ocid = "ocid1.compartment.oc1..replace-me"
+ssh_public_key   = "ssh-ed25519 AAAA... you@example"
+
+# Keep the defaults for one 2-OCPU / 12-GB VM.
+# For two VMs, uncomment all three lines:
+# instance_count         = 2
+# ocpus_per_instance     = 1
+# memory_gb_per_instance = 6
+
+# Strongly recommended: allow SSH only from your public IPv4 address.
+ssh_ingress_cidr = "203.0.113.10/32"
