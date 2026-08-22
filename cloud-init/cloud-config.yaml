@@ -33,4 +33,4 @@ runcmd:
   - [systemctl, enable, --now, fail2ban]
   - [systemctl, restart, ssh]
 
-final_message: "oci-free-arm-stack bootstrap completed after $UPTIME seconds"
+final_message: "free-tier-lab bootstrap completed after $UPTIME seconds"

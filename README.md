@@ -1,8 +1,10 @@
-# OCI Free ARM Stack
+# Free Tier Lab
 
-Provision a small, security-conscious Docker host on Oracle Cloud Infrastructure's Ampere A1 Always Free compute using Terraform.
+Build useful self-hosted services on genuinely free cloud resources. Oracle Cloud Infrastructure's Ampere A1 Always Free compute is the first provider module, provisioned as a small, security-conscious Docker host with Terraform.
 
 > Inspired by the project brief that started this repository: make genuinely useful internet services easy to run on Oracle's free ARM capacity, with the free limits captured as code instead of tribal knowledge.
+
+The repository name is intentionally provider-neutral: future modules can cover other worthwhile free tiers without forcing unrelated infrastructure into an Oracle-specific project.
 
 ## What you get
 
@@ -71,6 +73,12 @@ For the split layout, set `instance_count = 2`, `ocpus_per_instance = 1`, and `m
 ## Next useful services
 
 Good lightweight ARM64 candidates include Caddy, Vaultwarden, Gitea/Forgejo, Uptime Kuma, AdGuard Home, and small personal APIs. Add one service at a time, pin image versions, enable backups, and put public apps behind HTTPS rather than exposing arbitrary ports.
+
+## Roadmap
+
+- Keep each provider in an isolated directory with its own cost ceilings and teardown guide.
+- Add other free-tier providers only after checking their current official terms and practical limitations.
+- Share reusable service definitions separately from provider-specific infrastructure.
 
 ## Security notes
 
