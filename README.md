@@ -21,7 +21,7 @@ The defaults follow Oracle's current Always Free tenancy documentation. Oracle r
 1. An OCI account and an API signing key configured for the [OCI Terraform provider](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformproviderconfiguration.htm).
 2. Terraform 1.6 or newer.
 3. Your tenancy's home-region identifier and a compartment OCID.
-4. An SSH public key. Never commit private keys or `terraform.tfvars`.
+4. An SSH public key and your current public IPv4 address. Never commit private keys or `terraform.tfvars`.
 
 ## Deploy
 
@@ -29,7 +29,7 @@ The defaults follow Oracle's current Always Free tenancy documentation. Oracle r
 cd terraform
 cp terraform.tfvars.example terraform.tfvars
 # Edit terraform.tfvars with your home region, compartment OCID, SSH key,
-# and preferably your own public IP as a /32 for ssh_ingress_cidr.
+# and your own public IPv4 address as a /32 for ssh_ingress_cidr.
 terraform init
 terraform fmt -check
 terraform validate
@@ -65,7 +65,7 @@ For the split layout, set `instance_count = 2`, `ocpus_per_instance = 1`, and `m
 ## Capacity and cost guardrails
 
 - **Out of host capacity:** retry later or try another availability domain in the same home region. This configuration distributes two VMs across available domains when possible.
-- **Free is a quota, not a billing lock:** Terraform constrains the resources in this repository, but it cannot prevent unrelated OCI resources or future pricing changes from costing money. Set an OCI budget alert and review the plan.
+- **Free is a quota, not a billing lock:** As checked against Oracle's Always Free documentation on 2026-08-29, the repository ceiling is 2 total A1 OCPUs, 12 GB RAM, and 200 GB of boot volumes. Limits and eligibility can change, so verify the linked Oracle documentation and the plan before every deployment. Terraform constrains resources in this repository, but it cannot prevent unrelated OCI resources from costing money. Set an OCI budget alert.
 - **Idle reclamation:** Oracle documents that idle Always Free compute can be reclaimed. Run legitimate services and keep backups; do not generate artificial load.
 - **ARM compatibility:** use container images that publish `linux/arm64` manifests.
 - **Destroy when finished:** `terraform destroy` removes the stack. Confirm the plan before approving it.
@@ -82,7 +82,11 @@ Good lightweight ARM64 candidates include Caddy, Vaultwarden, Gitea/Forgejo, Upt
 
 ## Security notes
 
-Ports 80 and 443 are public for web services. SSH is controlled by `ssh_ingress_cidr`; the example uses a documentation-only IP, while the variable default is open so first-time users do not lock themselves out. Restrict it to your public address (`x.x.x.x/32`) before applying. OCI security lists and the operating-system firewall are separate layers; review both when adding services.
+Ports 80 and 443 are public for web services. SSH is controlled by the required `ssh_ingress_cidr` variable, and validation requires one IPv4 `/32`. The example uses a documentation-only `/32`; replace it with your public IPv4 address before applying. OCI security lists and the operating-system firewall are separate layers; review both when adding services.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Security reports: [SECURITY.md](SECURITY.md).
 
 ## License
 

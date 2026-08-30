@@ -59,9 +59,16 @@ variable "boot_volume_gb" {
 }
 
 variable "ssh_ingress_cidr" {
-  description = "CIDR allowed to SSH. Replace the default with your public IP as x.x.x.x/32."
+  description = "CIDR allowed to SSH. Supply your public IPv4 address as x.x.x.x/32."
   type        = string
-  default     = "0.0.0.0/0"
+
+  validation {
+    condition = alltrue([
+      can(cidrhost(var.ssh_ingress_cidr, 0)),
+      can(regex("^([0-9]{1,3}\\.){3}[0-9]{1,3}/32$", var.ssh_ingress_cidr))
+    ])
+    error_message = "ssh_ingress_cidr must be a valid IPv4 /32 for one public address; 0.0.0.0/0 and malformed CIDRs are not allowed."
+  }
 }
 
 variable "name_prefix" {
