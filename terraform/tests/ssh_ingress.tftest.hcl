@@ -52,3 +52,13 @@ run "reject_malformed_ssh_cidr" {
 
   expect_failures = [var.ssh_ingress_cidr]
 }
+
+run "reject_two_full_size_vms" {
+  command = plan
+
+  variables {
+    instance_count = 2
+  }
+
+  expect_failures = [oci_core_instance.arm]
+}
