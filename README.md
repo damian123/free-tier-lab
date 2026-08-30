@@ -1,8 +1,6 @@
 # Free Tier Lab
 
-Build useful self-hosted services on genuinely free cloud resources. Oracle Cloud Infrastructure's Ampere A1 Always Free compute is the first provider module, provisioned as a small, security-conscious Docker host with Terraform.
-
-> Inspired by the project brief that started this repository: make genuinely useful internet services easy to run on Oracle's free ARM capacity, with the free limits captured as code instead of tribal knowledge.
+Build useful self-hosted services on genuinely free cloud resources. Oracle Cloud Infrastructure's Ampere A1 Always Free compute is the first provider module: a small Docker host with Terraform, SSH locked to one address, and Always Free ceilings encoded as validations instead of notes in a wiki.
 
 The repository name is intentionally provider-neutral: future modules can cover other worthwhile free tiers without forcing unrelated infrastructure into an Oracle-specific project.
 
