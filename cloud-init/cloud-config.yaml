@@ -2,6 +2,13 @@
 package_update: true
 package_upgrade: true
 
+apt:
+  sources:
+    docker:
+      # Docker release signing key (fingerprint 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88)
+      keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+      source: "deb [arch=arm64] https://download.docker.com/linux/ubuntu noble stable"
+
 packages:
   - ca-certificates
   - curl
@@ -9,6 +16,10 @@ packages:
   - git
   - jq
   - unattended-upgrades
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-compose-plugin
 
 write_files:
   - path: /etc/ssh/sshd_config.d/90-hardening.conf
@@ -27,7 +38,6 @@ write_files:
       bantime = 1h
 
 runcmd:
-  - [sh, -c, "curl -fsSL https://get.docker.com | sh"]
   - [usermod, -aG, docker, ubuntu]
   - [systemctl, enable, --now, docker]
   - [systemctl, enable, --now, fail2ban]

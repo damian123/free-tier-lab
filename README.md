@@ -9,7 +9,7 @@ The repository name is intentionally provider-neutral: future modules can cover 
 - One Ubuntu 24.04 ARM VM with **2 OCPUs and 12 GB RAM** by default.
 - An optional two-VM layout with **1 OCPU and 6 GB RAM each**.
 - A VCN, public subnet, internet gateway, route table, and minimal ingress rules.
-- SSH-key-only login, no root login, automatic security upgrades, Fail2ban, Docker, and Docker Compose.
+- SSH-key-only login, no root login, automatic security upgrades, Fail2ban, and Docker Engine plus Compose from Docker's signed apt repository.
 - Terraform checks that reject more than 2 total OCPUs, 12 GB RAM, or 200 GB of boot volumes.
 
 The defaults follow Oracle's current Always Free tenancy documentation. Oracle requires Always Free compute in your **home region**, may reclaim idle instances, and may temporarily have no A1 capacity. Always verify the limits and eligible resources shown in your own OCI console before applying. See [Oracle Cloud Free Tier](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier.htm) and [Always Free Resources](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm).
@@ -71,12 +71,6 @@ For the split layout, set `instance_count = 2`, `ocpus_per_instance = 1`, and `m
 ## Next useful services
 
 Good lightweight ARM64 candidates include Caddy, Vaultwarden, Gitea/Forgejo, Uptime Kuma, AdGuard Home, and small personal APIs. Add one service at a time, pin image versions, enable backups, and put public apps behind HTTPS rather than exposing arbitrary ports.
-
-## Roadmap
-
-- Keep each provider in an isolated directory with its own cost ceilings and teardown guide.
-- Add other free-tier providers only after checking their current official terms and practical limitations.
-- Share reusable service definitions separately from provider-specific infrastructure.
 
 ## Security notes
 
